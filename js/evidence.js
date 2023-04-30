@@ -23,6 +23,7 @@ function appendEvidence(parent){
     const newElement = document.createElement("textarea");
     newElement.value = '資料';
     newElement.className = "quot";
+    newElement.addEventListener("input",setTextareaHeight);
     return parent.appendChild(newElement);
 
 }
@@ -40,3 +41,7 @@ function endEvidence(e){
     newNode.focus();                    
 }
 
+function setTextareaHeight() {
+    this.style.height = "auto";
+    this.style.height = `${this.scrollHeight}px`;
+}
