@@ -1,6 +1,6 @@
 function toNextRow(e){
 
-    if(!e.metaKey) return;
+    if(!e.metaKey && !e.ctrlKey) return;
     if(e.srcElement.className.indexOf("text") === -1) return;
     if(e.code !== "Enter") return;
     
