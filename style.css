@@ -29,7 +29,11 @@ body{
 }
 
 .border{
+    height : 40px;
     border-bottom: dotted 1px black ;
+}
+.text{
+    font-size: xx-large;
 }
 .red{
     color : red;
