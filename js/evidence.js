@@ -29,7 +29,7 @@ function appendEvidence(parent){
 
 function endEvidence(e){
 
-    if(!e.metaKey) return;
+    if(!e.metaKey && !e.ctrlKey) return;
     if(e.srcElement.className !== "quot") return;
     if(e.code !== "Enter") return
     const div = document.createElement("div");
