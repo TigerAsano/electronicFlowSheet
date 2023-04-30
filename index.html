@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="./style.css">
+	</head>
+
+	<body>
+
+		<table class="head">
+			<tr>
+				<td>
+					<label class="selectbox">
+						<select id="flow">
+							<option value="Aff">肯定側フロー</option>
+							<option value="Neg">否定側フロー</option>
+						</select>
+					</label>
+				</td>
+				<td>&nbsp;</td>
+				<td >ジャッジ</td>
+				<td colspan="2"><input></td>
+				<td></td>
+				<td class="cp-label">立論</td>
+				<td class="cp-label">質疑</td>
+				<td class="cp-label">応答</td>
+				<td class="cp-label">1反</td>
+				<td class="cp-label">2反</td>
+			</tr>
+			<tr>
+				<td>論題 : <input></td>
+				<td>&nbsp;</td>
+				<td>肯定側</td>
+				<td><input size="10"></td>
+				<td><input size="5"><span class="unit">票</span></td>
+				<td class="cp-side1">CP</td>
+				<td class="cp"><input size="5"><span class="point">点</span> </td>
+				<td class="cp"><input size="5"><span class="point">点</span> </td>
+				<td class="cp"><input size="5"><span class="point">点</span> </td>
+				<td class="cp"><input size="5"><span class="point">点</span> </td>
+				<td class="cp-side2"><input size="5"><span><span class="point">点</span></span> </td>
+
+			</tr>
+			<tr>
+				<td>日付 : <span id="today"></span></td>
+				<td>&nbsp;</td>
+				<td>否定側</td>
+				<td><input size="10"></td>
+				<td><input size="5"><span class="unit">票</span></td>
+					<td class="cp-side1">CP</td>
+					<td class="cp"><input size="5"><span><span class="point">点</span></span> </td>
+					<td class="cp"><input size="5"><span class="point">点</span> </td>
+					<td class="cp"><input size="5"><span class="point">点</span> </td>
+					<td class="cp"><input size="5"><span class="point">点</span> </td>
+					<td class="cp-side2"><input size="5"><span class="point">点</span> </td>
+			</tr>
+
+		</table>
+
+		<table id="Aff">
+				<thead class="part">
+					<th class="red">肯定側立論</th>
+					<th class="blue">否定側質疑</th>
+					<th class="blue">否定側第一反駁</th>
+					<th class="red">肯定側第一反駁</th>
+					<th class="blue">否定側第二反駁</th>
+					<th class="red">肯定側第二反駁</th>
+				</thead>
+				<tr>
+					<td class="border red" id="0">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border blue" id="1">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border blue"  id="2">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red" id="3">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border blue"  id="4">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red" id="5">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					
+				</tr>
+		</table>
+
+		<table id="Neg">
+			<tbody>
+				<thead class="part">
+					<th class="blue">否定側立論</th>
+					<th class="red">肯定側質疑</th>
+					<th class="red">肯定側第一反駁</th>
+					<th class="blue">否定側第二反駁</th>
+					<th class="red">肯定側第二反駁</th>
+					<th>比較</th>
+				</thead>
+				<tr>
+					<td class="border blue" id="0">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red" id="1">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red"  id="2">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border blue" id="3">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red"  id="4">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					<td class="border red" id="5">
+						<div contenteditable="true" class="text"></div>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</body>
+	<script src="./js/row.js"></script>
+	<script src="./js/evidence.js"></script>
+	<script src="./js/sheet.js"></script>
+	<script src="./js/setUp.js"></script>
+
+</html>

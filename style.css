@@ -1,0 +1,107 @@
+body{
+    font-size: 10px;
+}
+.part{
+    font-size: 15px;
+    width: 100%;
+}
+#Neg{
+    width: 100%;
+    position:relative;
+}
+
+#Aff{
+    width:100%;
+    position:relative;
+}
+
+#Aff > td,th{
+    width : 16.6%;
+}
+#Neg > td,th{
+    width: 16.6%;
+}
+
+.quot{
+    width: 90%;
+    background-color: #eee;
+
+}
+
+.border{
+    border-bottom: dotted 1px black ;
+}
+.red{
+    color : red;
+}
+.blue{
+    color : blue;
+}
+
+table{
+    border-collapse:collapse;
+}
+thead th{
+    border-bottom: double 3px black;
+    margin : 3px;
+
+}
+td{
+    margin : 3px;
+}
+.head{
+    display: flex;
+    font-size: 10px;
+}
+.cp-side2{
+    border-right: solid 1px black;
+}
+.cp,.cp-side2,.cp-side1{
+    border-top : solid 1px black;
+    border-bottom:solid 1px black;
+}
+.cp-side1{
+    padding-left: 10px;
+    border-left: solid 1px black;
+}
+.unit{
+    margin-right: 30px;
+    font-size: 10px;
+}
+.cp-label{
+    text-align: center;
+}
+.point{
+    font-size: 10px;
+}
+.selectbox {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.selectbox::after {
+    position: absolute;
+    right: 15px;
+    width: 10px;
+    height: 7px;
+    background-color: #535353;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: '';
+    pointer-events: none;
+}
+
+.selectbox select {
+    appearance: none;
+    height: 2.0em;
+    padding: .4em calc(.8em + 30px) .4em .8em;
+    border: 1px solid #cccccc;
+    border-radius: 15px;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1em;
+    cursor: pointer;
+}
+.cp > input,.cp-side2 > input{
+    text-align: right;
+}
