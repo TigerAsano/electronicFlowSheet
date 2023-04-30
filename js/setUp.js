@@ -54,8 +54,9 @@ function setOnClick(){
     for(let i=cells.length;i--;){
 
         cells[i].addEventListener("click",e => {
-            if(e.target.className === "text") return;
-            e.target.children[0].focus();
+            try{
+              e.target.children[0].focus();
+            }catch{}
         
         })
 
