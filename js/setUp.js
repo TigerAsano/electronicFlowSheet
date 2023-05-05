@@ -68,6 +68,14 @@ setOnStartEvidence();
 setOnFocus();
 setOnClick();
 
+window.onload = function(){
+
+    const oldFlowData = localStorage.getItem(window.location.href);
+
+    setEditedData(oldFlowData);
+
+}
+
 document.addEventListener("keydown",toNextRow);
 document.addEventListener("keydown",endEvidence);
 
