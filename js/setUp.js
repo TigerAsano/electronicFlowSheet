@@ -79,7 +79,5 @@ window.onload = function(){
 document.addEventListener("keydown",toNextRow);
 document.addEventListener("keydown",endEvidence);
 
-document.getElementById("flow").addEventListener("change",onChangeSheet);
-
 document.getElementById("today").textContent =  new Intl.DateTimeFormat('ja-JP').format(new Date()).replaceAll("/","-");
 document.getElementById("Neg").style.display = "none";
