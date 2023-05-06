@@ -16,3 +16,5 @@ function onChangeSheet(e){
     }
 
 }
+
+document.getElementById("flow").addEventListener("change",onChangeSheet);
