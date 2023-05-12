@@ -1,6 +1,7 @@
-function setEditedData(str){
+(function setEditedData(){
+    const oldFlowData = localStorage.getItem(window.location.href);
 
-    const obj = JSON.parse(str);
+    const obj = JSON.parse(oldFlowData);
 
     for(const [key,html] of Object.entries(obj)){
 
@@ -17,15 +18,7 @@ function setEditedData(str){
 
     }
 
-}
-
-window.onload = function(){
-
-    const oldFlowData = localStorage.getItem(window.location.href);
-
-    setEditedData(oldFlowData);
-
-}
+})();
 
 document.addEventListener("keydown",e => {
 
