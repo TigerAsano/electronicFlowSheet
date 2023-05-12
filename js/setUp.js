@@ -81,3 +81,26 @@ document.addEventListener("keydown",endEvidence);
 
 document.getElementById("today").textContent =  new Intl.DateTimeFormat('ja-JP').format(new Date()).replaceAll("/","-");
 document.getElementById("Neg").style.display = "none";
+
+function onChangeSheet() {
+
+        const { value } = document.getElementById("flow");
+
+        if(value === "Neg") {
+            document.getElementById("Aff").style.display = "none";
+            document.getElementById("Neg").style.display = "block";
+            document.getElementById("Neg").style.display = "";
+
+
+        }else{
+            document.getElementById("Neg").style.display = "none";
+            document.getElementById("Aff").style.display = "blcok";
+            document.getElementById("Aff").style.display = "";
+
+        }
+
+};
+
+document.getElementById("flow").addEventListener("change", onChangeSheet) ;
+
+
