@@ -1,3 +1,32 @@
+function setEditedData(str){
+
+    const obj = JSON.parse(str);
+
+    for(const [key,html] of Object.entries(obj)){
+
+        if(key === "head") {
+
+            document.getElementsByClassName("head")[0].outerHTML = html;
+
+            continue;
+
+        }
+
+        
+        document.getElementById(key).outerHTML = html;
+
+    }
+
+}
+
+window.onload = function(){
+
+    const oldFlowData = localStorage.getItem(window.location.href);
+
+    setEditedData(oldFlowData);
+
+}
+
 document.addEventListener("keydown",e => {
 
     if(!e.altKey) return;
@@ -28,23 +57,4 @@ document.addEventListener("keydown",e => {
 })
 
 
-function setEditedData(str){
 
-    const obj = JSON.parse(str);
-
-    for(const [key,html] of Object.entries(obj)){
-
-        if(key === "head") {
-
-            document.getElementsByClassName("head")[0].outerHTML = html;
-
-            continue;
-
-        }
-
-        
-        document.getElementById(key).outerHTML = html;
-
-    }
-
-}
