@@ -1,5 +1,4 @@
-(function (){
-    document.getElementById("flow").addEventListener("change",e => {
+function onChangeSheet(e) {
 
         const { value } = document.getElementById("flow");
 
@@ -16,6 +15,4 @@
 
         }
 
-    });
-})();
-
+};
