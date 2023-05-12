@@ -17,7 +17,7 @@ function onChangeSheet() {
 
 };
 
-document.getElementById("flow").onchange = onChangeSheet;
+document.getElementById("flow").addEventListener("change", onChangeSheet) ;
 
 console.log("hoge");
 
