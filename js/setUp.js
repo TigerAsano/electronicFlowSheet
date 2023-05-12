@@ -54,9 +54,8 @@ function setOnClick(){
     for(let i=cells.length;i--;){
 
         cells[i].addEventListener("click",e => {
-            try{
-              e.target.children[0].focus();
-            }catch{}
+            if(e.target.className === "text") return;
+            e.target.children[0].focus();
         
         })
 
@@ -68,12 +67,10 @@ setOnStartEvidence();
 setOnFocus();
 setOnClick();
 
-
-
 document.addEventListener("keydown",toNextRow);
 document.addEventListener("keydown",endEvidence);
 
+document.getElementById("flow").addEventListener("change",onChangeSheet);
+
 document.getElementById("today").textContent =  new Intl.DateTimeFormat('ja-JP').format(new Date()).replaceAll("/","-");
 document.getElementById("Neg").style.display = "none";
-
-
