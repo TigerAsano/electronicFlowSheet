@@ -1,5 +1,6 @@
 body{
     font-size: 10px;
+    font-family: 'Zen Kaku Gothic Antiqu';
 }
 .part{
     font-size: 15px;
@@ -25,6 +26,7 @@ body{
 .quot{
     width: 90%;
     background-color: #eee;
+    border : none;
 
 }
 
@@ -56,6 +58,7 @@ td{
 .head{
     display: flex;
     font-size: 10px;
+    width: 100%;
 }
 .cp-side2{
     border-right: solid 1px black;
@@ -108,4 +111,16 @@ td{
 }
 .cp > input,.cp-side2 > input{
     text-align: right;
+}
+
+#timer{
+
+    width: 20vw;
+
+    margin-left: 10px;
+
+    font-size: 5vmin;
+
+    text-align: center;
+
 }
