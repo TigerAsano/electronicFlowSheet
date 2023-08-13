@@ -7,14 +7,11 @@ function toNextRow(e){
     const currentSheet = document.getElementById("flow").value;
 
     const table = document.getElementById(currentSheet);
-    const rowLength = table.rows.length;
     const rowIndex = e.srcElement.parentNode.parentNode.rowIndex;
 
+    appendRow(e);
 
-    if(rowIndex === rowLength -1 ){
-        appendRow(e);
-        return;
-    }
+    rePosition();
 
     for(const cell of table.rows[rowIndex+1].cells){
 
@@ -37,7 +34,7 @@ function appendRow(e){
         "Neg" : ["blue","red","red","blue","red"]
     };
 
-    const tr = document.createElement("tr");
+    const newRow = table.insertRow(e.srcElement.parentNode.parentNode.rowIndex + 1);
     
     for(let i=0;i<6;i++){
 
@@ -48,11 +45,9 @@ function appendRow(e){
         div.className = "text";
         div.contentEditable = true;
         td.appendChild(div);
-        tr.appendChild(td);
+        newRow.appendChild(td);
 
     }
-
-    const newRow = table.appendChild(tr);
 
     setOnStartEvidence();
     
