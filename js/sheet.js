@@ -15,4 +15,6 @@ function onChangeSheet(e){
         
     }
 
+    hideLine();
+
 }
