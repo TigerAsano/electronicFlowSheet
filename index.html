@@ -136,6 +136,37 @@
 				</tr>
 			</tbody>
 		</table>
+				<section id="modalArea" class="modalArea">
+            <div id="modalBg" class="modalBg"></div>
+            <div class="modalWrapper">
+              <div class="modalContents">
+                <h3>段落の追加</h3>
+                <p>Ctrl(Cmd) + Enter で段落を追加できます。(点線で区切られます。)</p>
+  
+                <h3>資料の引用</h3>
+                <p>「!」を入力することで、資料を引用できます。Ctrl(Cmd) + Enter で引用終了です。</p>
+
+                <h3>伸ばす</h3>
+                <p>資料を引用した状態で、伸ばしたい論点をクリックします。</p>
+                
+              </div>
+              <div id="closeModal" class="closeModal">
+                ×
+              </div>
+            </div>
+          </section>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+			$('#modalArea').fadeIn();
+			$(function () {
+				$('#openModal').click(function(){
+					$('#modalArea').fadeIn();
+			 	});
+  			$('#closeModal , #modalBg').click(function(){
+				$('#modalArea').fadeOut();
+  				});
+			});
+		</script>
 	</body>
 	<script src="./js/line.js"></script>
 	<script src="./js/appeal.js"></script>
