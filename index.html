@@ -5,12 +5,14 @@
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="./style.css">
 		<title>電子フロー</title>
+		<link href="https://fonts.googleapis.com/css?family=Zen+Kaku+Gothic+Antique" rel="stylesheet">
 
 	</head>
 
 	<body>
 
 		<table class="head">
+			<tbody>
 			<tr>
 				<td>
 					<label class="selectbox">
@@ -21,20 +23,28 @@
 					</label>
 				</td>
 				<td>&nbsp;</td>
-				<td >ジャッジ</td>
-				<td colspan="2"><input></td>
+				<td ></td>
 				<td></td>
 				<td class="cp-label">立論</td>
 				<td class="cp-label">質疑</td>
 				<td class="cp-label">応答</td>
 				<td class="cp-label">1反</td>
 				<td class="cp-label">2反</td>
+				<td rowspan="3" id="timer">
+
+					<span id="minutes" contenteditable="true">
+						4
+					</span>
+					:
+					<span id="seconds" contenteditable="true">
+						00
+					</span>
+
+				</td>
 			</tr>
 			<tr>
-				<td>論題 : <input></td>
-				<td>&nbsp;</td>
-				<td>肯定側</td>
-				<td><input size="10"></td>
+				<td>肯定側 : <input size="10"></td>
+				<td></td>
 				<td><input size="5"><span class="unit">票</span></td>
 				<td class="cp-side1">CP</td>
 				<td class="cp"><input size="5"><span class="point">点</span> </td>
@@ -42,13 +52,13 @@
 				<td class="cp"><input size="5"><span class="point">点</span> </td>
 				<td class="cp"><input size="5"><span class="point">点</span> </td>
 				<td class="cp-side2"><input size="5"><span><span class="point">点</span></span> </td>
+				<td><button class="button" id="startTimer">スタート</button></td>
+
 
 			</tr>
 			<tr>
-				<td>日付 : <span id="today"></span></td>
-				<td>&nbsp;</td>
-				<td>否定側</td>
-				<td><input size="10"></td>
+				<td>否定側 : <input size="10"></td>
+				<td></td>
 				<td><input size="5"><span class="unit">票</span></td>
 					<td class="cp-side1">CP</td>
 					<td class="cp"><input size="5"><span><span class="point">点</span></span> </td>
@@ -56,8 +66,9 @@
 					<td class="cp"><input size="5"><span class="point">点</span> </td>
 					<td class="cp"><input size="5"><span class="point">点</span> </td>
 					<td class="cp-side2"><input size="5"><span class="point">点</span> </td>
-			</tr>
-
+					<td><button class="button" id="stopTimer">ストップ</button></td>
+				</tr>
+		</tbody>
 		</table>
 
 		<table id="Aff">
@@ -126,10 +137,14 @@
 			</tbody>
 		</table>
 	</body>
+	<script src="./js/line.js"></script>
+	<script src="./js/appeal.js"></script>
 	<script src="./js/row.js"></script>
 	<script src="./js/evidence.js"></script>
 	<script src="./js/sheet.js"></script>
+	<script src="./js/timer.js"></script>
 	<script src="./js/setUp.js"></script>
+
 
 
 
