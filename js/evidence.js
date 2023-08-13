@@ -9,9 +9,10 @@ function onStartEvidence(textarea,clientHeight) {
             if(e.target.textContent.endsWith('!')||e.target.textContent.endsWith("！")){
     
                 e.target.textContent = e.target.textContent.replace(/!|！/,"");
-                const child = appendEvidence(e.target.parentNode);                    
+                const child = appendEvidence(e.target.parentNode);          
                 child.focus();
                 child.setSelectionRange(0,2);
+                child.value = "";
         
             }
     }
@@ -21,7 +22,7 @@ function onStartEvidence(textarea,clientHeight) {
 function appendEvidence(parent){
 
     const newElement = document.createElement("textarea");
-    newElement.value = '資料';
+    newElement.value = 'T';
     newElement.className = "quot";
     newElement.addEventListener("input",setTextareaHeight);
     return parent.appendChild(newElement);
