@@ -59,6 +59,19 @@ function appendRow(e){
     }
     setOnFocus();
     setOnClick();
+    setComparisonArea();
+
+
+}
+
+
+function setComparisonArea(){
+
+    const table = document.getElementById("Neg");
+    const rowNum = Math.ceil((table.rows.length - 1)/2); //headerを除く
+
+    table.rows[1].cells[5].rowSpan = rowNum;
+    table.rows[1+rowNum].cells[5].rowSpan = rowNum;
 
 }
 
