@@ -54,8 +54,6 @@ function hideLine(){
 
     for(let i=APPEALS.length;i--;){
 
-        console.log(APPEALS[i].sheet,value);
-
 
         if (APPEALS[i].sheet !== value) {
 
