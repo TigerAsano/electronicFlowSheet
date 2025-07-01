@@ -16,16 +16,10 @@ body{
     position:relative;
 }
 
-#Aff > td,th{
-    width : 16.6%;
-}
-#Neg > td,th{
-    width: 16.6%;
-}
 
 .quot{
     width: 90%;
-    background-color: #eee;
+    background-color: #eeeeee;
     border : none;
 
 }
@@ -46,6 +40,7 @@ body{
 
 table{
     border-collapse:collapse;
+    table-layout : fixed;
 }
 thead th{
     border-bottom: double 3px black;
@@ -151,7 +146,7 @@ td{
     width: 70%;
     max-width: 500px;
     padding: 10px 30px;
-    background-color: #fff;
+    background-color: #ffffff;
   }
   
   .closeModal {
@@ -160,3 +155,5 @@ td{
     right: 1rem;
     cursor: pointer;
   }
+
+  .edit-icon { cursor: pointer; margin-left: 5px; font-size:60% }
