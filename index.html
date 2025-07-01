@@ -10,8 +10,7 @@
 	</head>
 
 	<body>
-
-		<table class="head">
+<table class="head">
 			<tbody>
 			<tr>
 				<td>
@@ -23,63 +22,25 @@
 					</label>
 				</td>
 				<td>&nbsp;</td>
-				<td ></td>
-				<td></td>
-				<td class="cp-label">立論</td>
-				<td class="cp-label">質疑</td>
-				<td class="cp-label">応答</td>
-				<td class="cp-label">1反</td>
-				<td class="cp-label">2反</td>
-				<td rowspan="3" id="timer">
 
-					<span id="minutes" contenteditable="true">
-						4
-					</span>
-					:
-					<span id="seconds" contenteditable="true">
-						00
-					</span>
-
-				</td>
-			</tr>
-			<tr>
-				<td>肯定側 : <input size="10"></td>
-				<td></td>
-				<td><input size="5"><span class="unit">票</span></td>
-				<td class="cp-side1">CP</td>
-				<td class="cp"><input size="5"><span class="point">点</span> </td>
-				<td class="cp"><input size="5"><span class="point">点</span> </td>
-				<td class="cp"><input size="5"><span class="point">点</span> </td>
-				<td class="cp"><input size="5"><span class="point">点</span> </td>
-				<td class="cp-side2"><input size="5"><span><span class="point">点</span></span> </td>
-				<td><button class="button" id="startTimer">スタート</button></td>
-
-
-			</tr>
-			<tr>
-				<td>否定側 : <input size="10"></td>
-				<td></td>
-				<td><input size="5"><span class="unit">票</span></td>
-					<td class="cp-side1">CP</td>
-					<td class="cp"><input size="5"><span><span class="point">点</span></span> </td>
-					<td class="cp"><input size="5"><span class="point">点</span> </td>
-					<td class="cp"><input size="5"><span class="point">点</span> </td>
-					<td class="cp"><input size="5"><span class="point">点</span> </td>
-					<td class="cp-side2"><input size="5"><span class="point">点</span> </td>
-					<td><button class="button" id="stopTimer">ストップ</button></td>
-				</tr>
+        <td style=" width: 35%;  margin-top: 1.4%; text-align: right;">
+ <a href="./description.html" target="_blank" style="font-size: large; top: 50%; ">HELP</a>
+</td>
+                </tr>
 		</tbody>
 		</table>
 
 		<table id="Aff">
-				<thead class="part">
-					<th class="red">肯定側立論</th>
-					<th class="blue">否定側質疑</th>
-					<th class="blue">否定側第一反駁</th>
-					<th class="red">肯定側第一反駁</th>
-					<th class="blue">否定側第二反駁</th>
-					<th class="red">肯定側第二反駁</th>
-				</thead>
+    <thead class="part">
+        <tr>
+            <th class="red" data-key="aff-col1">肯定側立論<span class="edit-icon">✏️</span></th>
+            <th class="blue" data-key="aff-col2">否定側質疑<span class="edit-icon">✏️</span></th>
+            <th class="blue" data-key="aff-col3">否定側第一反駁<span class="edit-icon">✏️</span></th>
+            <th class="red" data-key="aff-col4">肯定側第一反駁<span class="edit-icon">✏️</span></th>
+            <th class="blue" data-key="aff-col5">否定側第二反駁<span class="edit-icon">✏️</span></th>
+            <th class="red" data-key="aff-col6">肯定側第二反駁<span class="edit-icon">✏️</span></th>
+        </tr>
+    </thead>
 				<tr>
 					<td class="border red" id="0">
 						<div contenteditable="true" class="text"></div>
@@ -99,19 +60,20 @@
 					<td class="border red" id="5">
 						<div contenteditable="true" class="text"></div>
 					</td>
-					
 				</tr>
 		</table>
 
 		<table id="Neg">
 			<tbody>
 				<thead class="part">
-					<th class="blue">否定側立論</th>
-					<th class="red">肯定側質疑</th>
-					<th class="red">肯定側第一反駁</th>
-					<th class="blue">否定側第二反駁</th>
-					<th class="red">肯定側第二反駁</th>
-					<th>比較</th>
+        <tr>
+            <th class="blue" data-key="neg-col1">否定側立論<span class="edit-icon">✏️</span></th>
+            <th class="red" data-key="neg-col2">肯定側質疑<span class="edit-icon">✏️</span></th>
+            <th class="red" data-key="neg-col3">肯定側第一反駁<span class="edit-icon">✏️</span></th>
+            <th class="blue" data-key="neg-col4">否定側第二反駁<span class="edit-icon">✏️</span></th>
+            <th class="red" data-key="neg-col5">肯定側第二反駁<span class="edit-icon">✏️</span></th>
+            <th data-key="col6">voter<span class="edit-icon">✏️</span></th>
+        </tr>
 				</thead>
 				<tr>
 					<td class="border blue" id="0">
@@ -136,46 +98,82 @@
 				</tr>
 			</tbody>
 		</table>
-				<section id="modalArea" class="modalArea">
-            <div id="modalBg" class="modalBg"></div>
-            <div class="modalWrapper">
-              <div class="modalContents">
-                <h3>段落の追加</h3>
-                <p>Ctrl(Cmd) + Enter で段落を追加できます。(点線で区切られます。)</p>
-  
-                <h3>資料の引用</h3>
-                <p>「!」を入力することで、資料を引用できます。Ctrl(Cmd) + Enter で引用終了です。</p>
-
-                <h3>伸ばす</h3>
-                <p>資料を引用した状態で、伸ばしたい論点をクリックします。</p>
-                
-              </div>
-              <div id="closeModal" class="closeModal">
-                ×
-              </div>
-            </div>
-          </section>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script>
-			$('#modalArea').fadeIn();
-			$(function () {
-				$('#openModal').click(function(){
-					$('#modalArea').fadeIn();
-			 	});
-  			$('#closeModal , #modalBg').click(function(){
-				$('#modalArea').fadeOut();
-  				});
-			});
-		</script>
 	</body>
 	<script src="./js/line.js"></script>
-	<script src="./js/appeal.js"></script>
-	<script src="./js/row.js"></script>
-	<script src="./js/evidence.js"></script>
-	<script src="./js/sheet.js"></script>
-	<script src="./js/timer.js"></script>
-	<script src="./js/setUp.js"></script>
+	<script src="./script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('th').forEach(th => {
+        let key = th.getAttribute('data-key');
+        let savedText = localStorage.getItem(key);
+        if (savedText) {
+            th.childNodes[0].nodeValue = savedText;
+            updateClass(th, savedText);
+        }
+    });
 
+    document.querySelectorAll('.edit-icon').forEach(icon => {
+        icon.addEventListener('click', function () {
+            let th = this.parentElement;
+            let key = th.getAttribute('data-key');
+            let oldText = th.childNodes[0].nodeValue.trim();
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = oldText;
+            th.innerHTML = '';
+            th.appendChild(input);
+            input.focus();
+
+            input.addEventListener('blur', () => saveEdit(th, key, input));
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') saveEdit(th, key, input);
+            });
+        });
+    });
+});
+
+function saveEdit(th, key, input) {
+    let newText = input.value.trim();
+    localStorage.setItem(key, newText);
+    th.innerHTML = newText + '<span class="edit-icon">✏️</span>';
+    updateClass(th, newText);
+    th.querySelector('.edit-icon').addEventListener('click', function () {
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.value = newText;
+        th.innerHTML = '';
+        th.appendChild(input);
+        input.focus();
+        input.addEventListener('blur', () => saveEdit(th, key, input));
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') saveEdit(th, key, input);
+        });
+    });
+}
+
+function updateClass(th, text) {
+    text = text.toLowerCase();
+    
+    // Determine the class based on the text content
+    let newClass = '';
+    if (text.includes('否定側') || text.includes('neg')) {
+        newClass = 'blue';
+    } else if (text.includes('肯定側') || text.includes('aff')) {
+        newClass = 'red';
+    }
+    
+    // Get all rows in the table
+    const rows = th.closest('table').rows;
+    if(!newClass) return;
+    // Loop through each row and apply the class to the corresponding <td> in the same column
+    for (let i = 0; i < rows.length; i++) {
+        const td = rows[i].cells[th.cellIndex];  // Get the <td> in the same column as <th>
+        td.classList.remove("red");
+        td.classList.remove("blue");
+        td.classList.add(newClass);
+    }
+}
+</script>
 
 
 
