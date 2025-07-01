@@ -13,6 +13,12 @@
 <table class="head">
 			<tbody>
 			<tr>
+				<td colspan="3" style="text-align: center; padding-bottom: 10px;">
+					<label for="topic" style="font-size: large; margin-right: 10px;">論題:</label>
+					<input type="text" id="topic" style="width: 80%; font-size: large; padding: 5px;" placeholder="ここに論題を入力">
+				</td>
+			</tr>
+			<tr>
 				<td>
 					<label class="selectbox">
 						<select id="flow">
@@ -104,6 +110,17 @@
 	<script src="./script.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // 論題の読み込みと保存
+    const topicInput = document.getElementById('topic');
+    const savedTopic = localStorage.getItem('debateTopic');
+    if (savedTopic) {
+        topicInput.value = savedTopic;
+    }
+    topicInput.addEventListener('input', () => {
+        localStorage.setItem('debateTopic', topicInput.value);
+    });
+
+
     document.querySelectorAll('th').forEach(th => {
         let key = th.getAttribute('data-key');
         let savedText = localStorage.getItem(key);
