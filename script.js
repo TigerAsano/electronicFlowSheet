@@ -1,4 +1,5 @@
 const APPEALS = [];
+const numberOfColumns = 8; 
 
 function setOnFocus(){
 
@@ -133,20 +134,25 @@ function appendRow(e, contentToMove = null) {
 
     const currentCellIndex = currentCell.cellIndex;
 
+    // ヘッダーから色の情報を取得（これは汎用性が高いのでそのまま利用）
     const colors = [];
     table.querySelectorAll('.part th').forEach(th => {
         let classList = Array.from(th.classList);
         let validClass = classList.find(cls => cls === 'red' || cls === 'blue');
         if (validClass) {
             colors.push(validClass);
+        } else {
+            colors.push(''); // 色がない場合も考慮
         }
     });
 
     const newRow = table.insertRow(currentRow.rowIndex + 1);
 
-    for (let i = 0; i < colors.length; i++) {
+    // ★★★ 6 → numberOfColumns に変更 ★★★
+    for (let i = 0; i < numberOfColumns; i++) {
         const td = document.createElement("td");
-        td.className = "border " + colors[i];
+        // colors配列が存在しないインデックスを参照しないように修正
+        td.className = `border ${colors[i] || ''}`; 
         td.id = i;
         const div = document.createElement("div");
         div.className = "text";
@@ -161,19 +167,15 @@ function appendRow(e, contentToMove = null) {
     if (newCell) {
         const textDiv = newCell.querySelector('.text');
         if (textDiv) {
-            // --- 渡されたコンテンツを新しいセルに配置する処理 ---
             if (contentToMove && contentToMove.hasChildNodes()) {
                 textDiv.appendChild(contentToMove);
             }
-            
             textDiv.focus();
-
-            // --- カーソルをコンテンツの末尾に移動させる ---
             const newSelection = window.getSelection();
             if (newSelection) {
                 const newRange = document.createRange();
                 newRange.selectNodeContents(textDiv);
-                newRange.collapse(false); // falseで範囲の末尾にカーソルを移動
+                newRange.collapse(false);
                 newSelection.removeAllRanges();
                 newSelection.addRange(newRange);
             }
@@ -185,12 +187,7 @@ function appendRow(e, contentToMove = null) {
 }
 
  
-// === ▼ 修正箇所 ▼ ===
 
-/**
- * セルの内容が変更されたときに高さを自動調整するイベントリスナーを返します。
- * @param {HTMLElement} element - 高さを調整する対象の要素 (td.border)
- */
 function onStartEvidence(element) {
     return e => {
         // 高さを一度 'auto' に戻すことで、コンテンツが減った場合にセルが縮むようになります。
@@ -306,11 +303,45 @@ function setOnClick(){
 
 }
 
+function initializeTables() {
+    const tables = [document.getElementById("Aff"), document.getElementById("Neg")];
+
+    tables.forEach(table => {
+        if (!table) return;
+
+        const headers = table.querySelectorAll('.part th');
+        const colors = Array.from(headers).map(th => {
+             let classList = Array.from(th.classList);
+             return classList.find(cls => cls === 'red' || cls === 'blue') || '';
+        });
+
+        // 既存の最初の行を取得し、列数を調整
+        const firstRow = table.querySelector('tbody tr');
+        if (!firstRow) return;
+
+        // 一旦中身をクリア
+        firstRow.innerHTML = '';
+
+        // 正しい列数でセルを再生成
+        for (let i = 0; i < numberOfColumns; i++) {
+            const td = document.createElement("td");
+            td.className = `border ${colors[i] || ''}`;
+            td.id = i;
+            const div = document.createElement("div");
+            div.className = "text";
+            div.contentEditable = true;
+            td.appendChild(div);
+            firstRow.appendChild(td);
+        }
+    });
+}
+
 
 
 setOnStartEvidence();
 setOnFocus();
 setOnClick();
+initializeTables(); 
 
 
 document.addEventListener("keydown",toNextRow);
