@@ -1,5 +1,5 @@
 const APPEALS = [];
-const numberOfColumns = 6; 
+let numberOfColumns = 6; 
 
 function setOnFocus(){
 
