@@ -6,22 +6,15 @@ body{
     font-size: 15px;
     width: 100%;
 }
-#Neg{
+#Neg, #Aff {
     width: 100%;
-    position:relative;
+    position: relative;
 }
-
-#Aff{
-    width:100%;
-    position:relative;
-}
-
 
 .quot{
     width: 90%;
     background-color: #eeeeee;
     border : none;
-
 }
 
 .border{
@@ -31,12 +24,12 @@ body{
 .text{
     font-size: large;
 }
-.red{
-    color : red;
-}
-.blue{
-    color : blue;
-}
+
+/* ▼▼▼ 色の指定方法を変更 ▼▼▼ */
+.color-red { color: red; }
+.color-blue { color: blue; }
+/* ▲▲▲ ここまで ▲▲▲ */
+
 
 table{
     border-collapse:collapse;
@@ -45,7 +38,7 @@ table{
 thead th{
     border-bottom: double 3px black;
     margin : 3px;
-
+    cursor: pointer; /* クリックできることを示すカーソルに変更 */
 }
 td{
     margin : 3px;
@@ -109,23 +102,16 @@ td{
 }
 
 #timer{
-
     width: 20vw;
-
     margin-left: 10px;
-
     font-size: 5vmin;
-
     text-align: center;
-
 }
 
-
-/* モーダルCSS */
 .modalArea {
     display: none;
     position: fixed;
-    z-index: 10; /*サイトによってここの数値は調整 */
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100%;
@@ -156,4 +142,8 @@ td{
     cursor: pointer;
   }
 
-  .edit-icon { cursor: pointer; margin-left: 5px; font-size:60% }
+  .edit-icon { 
+      cursor: pointer; 
+      margin-left: 5px; 
+      font-size:60% 
+    }
