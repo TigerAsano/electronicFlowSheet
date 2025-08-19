@@ -21,7 +21,13 @@
 						</select>
 					</label>
 				</td>
-				<td>&nbsp;</td>
+                <td>
+                    <label class="column-input">
+                        列数: <input type="number" id="columnCount" value="6" min="1" max="12">
+                        <button id="applyColumnCount">適用</button>
+                    </label>
+                </td>
+                <td>&nbsp;</td>
 <td style=" width: 10%;  margin-top: 1.4%; text-align: left;">
  <a href="/description" style="font-size: large; top: 50%; " target="_blank">HELP</a>
 </td>
@@ -181,8 +187,4 @@ function updateClass(th, text) {
     }
 }
 </script>
-
-
-
-
 </html>
