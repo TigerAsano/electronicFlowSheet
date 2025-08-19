@@ -168,6 +168,7 @@ function updateTableColumns(newColumnCount) {
                 const th = document.createElement('th');
                 const key = `${table.id.toLowerCase()}-col${i + 1}`;
                 th.setAttribute('data-key', key);
+                th.classList.add(`col-${i}`); // 列クラスを追加
                 const savedText = localStorage.getItem(key) || `新しい列 ${i + 1}`;
                 th.innerHTML = `${savedText} <span class="edit-icon">✏️</span>`;
                 theadRow.appendChild(th);
@@ -177,6 +178,13 @@ function updateTableColumns(newColumnCount) {
                 theadRow.lastChild.remove();
             }
         }
+        
+        // ヘッダーの色を復元
+        theadRow.querySelectorAll('th').forEach(th => {
+            const colorKey = th.getAttribute('data-key') + '-color';
+            const savedColor = localStorage.getItem(colorKey) || '';
+            applyColumnColor(th, savedColor);
+        });
 
         const rows = tbody.querySelectorAll('tr');
         rows.forEach(row => {
@@ -186,8 +194,13 @@ function updateTableColumns(newColumnCount) {
             if (currentCellCount < newColumnCount) {
                 for (let i = currentCellCount; i < newColumnCount; i++) {
                     const td = document.createElement('td');
-                    td.className = "border";
+                    td.className = `border col-${i}`; // 列クラスを追加
                     td.id = i;
+                    // 色を適用
+                    const header = theadRow.children[i];
+                    if (header && header.dataset.colorClass) {
+                        td.classList.add(header.dataset.colorClass);
+                    }
                     const div = document.createElement('div');
                     div.className = "text";
                     div.contentEditable = true;
@@ -202,7 +215,7 @@ function updateTableColumns(newColumnCount) {
         });
     });
 
-    attachEditIconListeners(); // 変更後にアイコンの機能を有効化
+    attachEventListenersToHeaders();
     setOnStartEvidence();
     setOnFocus();
     setOnClick();
@@ -222,16 +235,14 @@ function appendRow(e, contentToMove = null) {
 
     const colors = [];
     table.querySelectorAll('.part th').forEach(th => {
-        let classList = Array.from(th.classList);
-        let validClass = classList.find(cls => cls === 'red' || cls === 'blue');
-        colors.push(validClass || '');
+        colors.push(th.dataset.colorClass || '');
     });
 
     const newRow = table.insertRow(currentRow.rowIndex + 1);
 
     for (let i = 0; i < numberOfColumns; i++) {
         const td = document.createElement("td");
-        td.className = `border ${colors[i] || ''}`;
+        td.className = `border col-${i} ${colors[i] || ''}`;
         td.id = i;
         const div = document.createElement("div");
         div.className = "text";
@@ -351,36 +362,34 @@ function setOnClick(){
     }
 }
 
-// === ▼ 初期化処理 ▼ ===
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 保存された列数を読み込む
     const savedColumnCount = localStorage.getItem('columnCount');
     if (savedColumnCount) {
         document.getElementById('columnCount').value = savedColumnCount;
         numberOfColumns = parseInt(savedColumnCount, 10);
     }
 
-    // 保存されたタイトルを読み込んで適用
-    document.querySelectorAll('th').forEach(th => {
+    document.querySelectorAll('th').forEach((th, i) => {
+        th.classList.add(`col-${i}`);
         let key = th.getAttribute('data-key');
         let savedText = localStorage.getItem(key);
         if (savedText) {
             th.childNodes[0].nodeValue = savedText;
-            updateClass(th, savedText);
         }
+        let colorKey = key + '-color';
+        let savedColor = localStorage.getItem(colorKey) || '';
+        applyColumnColor(th, savedColor);
     });
 
-    // 初期状態でテーブルを更新
     updateTableColumns(numberOfColumns);
     
-    // 「適用」ボタンのイベントリスナー
     document.getElementById("applyColumnCount").addEventListener("click", () => {
         const newCount = parseInt(document.getElementById("columnCount").value, 10);
-        localStorage.setItem('columnCount', newCount); // 列数を保存
+        localStorage.setItem('columnCount', newCount);
         updateTableColumns(newCount);
     });
 
-    // 既存のイベントリスナー設定
     document.addEventListener("keydown",toNextRow);
     document.addEventListener("keydown",endEvidence);
     document.addEventListener("keydown",deleteEvidence);
