@@ -118,15 +118,78 @@ function toNextRow(e) {
 }
 
 /**
- * 現在の行の直後に新しい行を挿入し、適切なセルにフォーカスを移動します。
- * オプションで、渡されたコンテンツを新しいセルに配置します。
- * @param {Event} e - 元のイベントオブジェクト
- * @param {DocumentFragment | null} contentToMove - 新しいセルに移動するコンテンツ
+ * 列数を指定してテーブルの構造を更新する関数
+ * @param {number} newColumnCount - 新しい列数
  */
+function updateTableColumns(newColumnCount) {
+    if (newColumnCount < 1) return;
+    numberOfColumns = newColumnCount;
+
+    const tables = [document.getElementById("Aff"), document.getElementById("Neg")];
+    
+    tables.forEach(table => {
+        if (!table) return;
+
+        const theadRow = table.querySelector('.part tr');
+        const tbody = table.querySelector('tbody');
+
+        // ヘッダーの列数を調整
+        const headers = Array.from(theadRow.children);
+        const currentHeaderCount = headers.length;
+
+        if (currentHeaderCount < newColumnCount) {
+            // 列を追加
+            for (let i = currentHeaderCount; i < newColumnCount; i++) {
+                const th = document.createElement('th');
+                th.setAttribute('data-key', `${table.id.toLowerCase()}-col${i + 1}`);
+                th.innerHTML = `新しい列 ${i + 1} <span class="edit-icon">✏️</span>`;
+                theadRow.appendChild(th);
+            }
+        } else if (currentHeaderCount > newColumnCount) {
+            // 列を削除
+            for (let i = currentHeaderCount; i > newColumnCount; i--) {
+                theadRow.lastChild.remove();
+            }
+        }
+
+        // ボディの各行の列数を調整
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const cells = Array.from(row.children);
+            const currentCellCount = cells.length;
+
+            if (currentCellCount < newColumnCount) {
+                // セルを追加
+                for (let i = currentCellCount; i < newColumnCount; i++) {
+                    const td = document.createElement('td');
+                    td.className = "border";
+                    td.id = i;
+                    const div = document.createElement('div');
+                    div.className = "text";
+                    div.contentEditable = true;
+                    td.appendChild(div);
+                    row.appendChild(td);
+                }
+            } else if (currentCellCount > newColumnCount) {
+                // セルを削除
+                for (let i = currentCellCount; i > newColumnCount; i--) {
+                    row.lastChild.remove();
+                }
+            }
+        });
+    });
+
+    // イベントリスナーを再設定
+    setOnStartEvidence();
+    setOnFocus();
+    setOnClick();
+    rePosition();
+}
+
+
 function appendRow(e, contentToMove = null) {
     const currentSheet = document.getElementById("flow").value;
     const table = document.getElementById(currentSheet);
-
     const currentRow = e.target.closest('tr');
     const currentCell = e.target.closest('td');
 
@@ -134,25 +197,19 @@ function appendRow(e, contentToMove = null) {
 
     const currentCellIndex = currentCell.cellIndex;
 
-    // ヘッダーから色の情報を取得（これは汎用性が高いのでそのまま利用）
     const colors = [];
     table.querySelectorAll('.part th').forEach(th => {
         let classList = Array.from(th.classList);
         let validClass = classList.find(cls => cls === 'red' || cls === 'blue');
-        if (validClass) {
-            colors.push(validClass);
-        } else {
-            colors.push(''); // 色がない場合も考慮
-        }
+        colors.push(validClass || '');
     });
 
     const newRow = table.insertRow(currentRow.rowIndex + 1);
 
-    // ★★★ 6 → numberOfColumns に変更 ★★★
+    // ★★★ numberOfColumns を使用してセルを生成 ★★★
     for (let i = 0; i < numberOfColumns; i++) {
         const td = document.createElement("td");
-        // colors配列が存在しないインデックスを参照しないように修正
-        td.className = `border ${colors[i] || ''}`; 
+        td.className = `border ${colors[i] || ''}`;
         td.id = i;
         const div = document.createElement("div");
         div.className = "text";
@@ -338,17 +395,24 @@ function initializeTables() {
 
 
 
-setOnStartEvidence();
-setOnFocus();
-setOnClick();
-initializeTables(); 
+document.addEventListener("DOMContentLoaded", () => {
+    // ページ読み込み時に初期列数でテーブルをセットアップ
+    const initialColumnCount = document.getElementById("columnCount").value;
+    numberOfColumns = parseInt(initialColumnCount, 10);
+    updateTableColumns(numberOfColumns);
 
+    // 「適用」ボタンにイベントリスナーを設定
+    document.getElementById("applyColumnCount").addEventListener("click", () => {
+        const newCount = parseInt(document.getElementById("columnCount").value, 10);
+        updateTableColumns(newCount);
+    });
 
-document.addEventListener("keydown",toNextRow);
-document.addEventListener("keydown",endEvidence);
-document.addEventListener("keydown",deleteEvidence);
-
-
-document.getElementById("flow").addEventListener("change",onChangeSheet);
-
-document.getElementById("Neg").style.display = "none";
+    setOnStartEvidence();
+    setOnFocus();
+    setOnClick();
+    document.addEventListener("keydown",toNextRow);
+    document.addEventListener("keydown",endEvidence);
+    document.addEventListener("keydown",deleteEvidence);
+    document.getElementById("flow").addEventListener("change",onChangeSheet);
+    document.getElementById("Neg").style.display = "none";
+});
