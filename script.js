@@ -1,35 +1,96 @@
 const APPEALS = [];
 let numberOfColumns = 6;
+const colorClasses = ['', 'color-red', 'color-blue']; // 切り替える色のクラスリスト
 
-// === ▼ 編集機能関連の関数 ▼ ===
+// === ▼ 編集機能・色変更関連の関数 ▼ ===
 
 /**
- * .edit-icon がクリックされたときに、タイトルを編集可能にするイベントリスナーを付与します。
+ * .edit-iconとヘッダーにイベントリスナーを付与します。
  */
-function attachEditIconListeners() {
-    document.querySelectorAll('.edit-icon').forEach(icon => {
-        // 既設のリスナーを削除して重複を防ぐ
-        const newIcon = icon.cloneNode(true);
-        icon.parentNode.replaceChild(newIcon, icon);
-        
-        newIcon.addEventListener('click', function () {
-            let th = this.parentElement;
-            let key = th.getAttribute('data-key');
-            let oldText = th.childNodes[0].nodeValue.trim();
-            let input = document.createElement('input');
-            input.type = 'text';
-            input.value = oldText;
-            th.innerHTML = '';
-            th.appendChild(input);
-            input.focus();
+function attachEventListenersToHeaders() {
+    document.querySelectorAll('th').forEach(th => {
+        // クリックイベントリスナーを一度削除して重複を防ぐ
+        const newTh = th.cloneNode(true);
+        th.parentNode.replaceChild(newTh, th);
 
-            input.addEventListener('blur', () => saveEdit(th, key, input));
-            input.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter') saveEdit(th, key, input);
-            });
+        newTh.addEventListener('click', (e) => {
+            // edit-iconがクリックされた場合は、編集モードにする
+            if (e.target.classList.contains('edit-icon')) {
+                enterEditMode(newTh);
+            } else {
+                // そうでなければ色を切り替える
+                cycleHeaderColor(newTh);
+            }
         });
     });
 }
+
+/**
+ * ヘッダーがクリックされたときに、編集モードを開始します。
+ * @param {HTMLElement} th - ヘッダー要素
+ */
+function enterEditMode(th) {
+    let key = th.getAttribute('data-key');
+    let oldText = th.childNodes[0].nodeValue.trim();
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.value = oldText;
+    th.innerHTML = '';
+    th.appendChild(input);
+    input.focus();
+
+    const finishEditing = () => saveEdit(th, key, input);
+    input.addEventListener('blur', finishEditing);
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.removeEventListener('blur', finishEditing); // blurイベントの重複発火を防ぐ
+            finishEditing();
+        }
+    });
+}
+
+/**
+ * ヘッダーの色を循環的に切り替えます。
+ * @param {HTMLElement} th - クリックされたヘッダー要素
+ */
+function cycleHeaderColor(th) {
+    const key = th.getAttribute('data-key') + '-color';
+    const currentIndex = colorClasses.indexOf(th.dataset.colorClass || '');
+    const nextIndex = (currentIndex + 1) % colorClasses.length;
+    const newColorClass = colorClasses[nextIndex];
+
+    localStorage.setItem(key, newColorClass); // 色情報を保存
+    applyColumnColor(th, newColorClass);
+}
+
+/**
+ * 指定された列に色のクラスを適用します。
+ * @param {HTMLElement} th - 対象のヘッダー要素
+ * @param {string} colorClass - 適用する色のクラス名
+ */
+function applyColumnColor(th, colorClass) {
+    const table = th.closest('table');
+    const thIndex = th.cellIndex;
+
+    // ヘッダーのクラスを更新
+    th.dataset.colorClass = colorClass;
+    th.classList.remove(...colorClasses);
+    if (colorClass) {
+        th.classList.add(colorClass);
+    }
+    
+    // ボディの対応するセルのクラスを更新
+    table.querySelectorAll('tbody tr').forEach(row => {
+        const cell = row.cells[thIndex];
+        if (cell) {
+            cell.classList.remove(...colorClasses);
+            if (colorClass) {
+                cell.classList.add(colorClass);
+            }
+        }
+    });
+}
+
 
 /**
  * 編集されたタイトルを保存し、表示を更新します。
@@ -39,10 +100,9 @@ function attachEditIconListeners() {
  */
 function saveEdit(th, key, input) {
     let newText = input.value.trim();
-    localStorage.setItem(key, newText); // タイトルを保存
+    localStorage.setItem(key, newText);
     th.innerHTML = newText + '<span class="edit-icon">✏️</span>';
-    updateClass(th, newText);
-    attachEditIconListeners(); // アイコンに再度イベントを付与
+    // attachEventListenersToHeaders は updateTableColumns から呼ばれるため不要
 }
 
 /**
