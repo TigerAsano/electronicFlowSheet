@@ -1,17 +1,13 @@
 const APPEALS = [];
 let numberOfColumns = 6;
-const colorClasses = ['', 'color-red', 'color-blue']; // 切り替える色のクラスリスト
+const colorClasses = ['', 'color-red', 'color-blue'];
 
 // === ▼ 編集機能・色変更関連の関数 ▼ ===
 
-/**
- * .edit-iconとヘッダーにイベントリスナーを付与します。
- */
 function attachEventListenersToHeaders() {
     document.querySelectorAll('th').forEach(th => {
         const newTh = th.cloneNode(true);
         th.parentNode.replaceChild(newTh, th);
-
         newTh.addEventListener('click', (e) => {
             if (e.target.classList.contains('edit-icon')) {
                 enterEditMode(newTh);
@@ -22,10 +18,6 @@ function attachEventListenersToHeaders() {
     });
 }
 
-/**
- * ヘッダーがクリックされたときに、編集モードを開始します。
- * @param {HTMLElement} th - ヘッダー要素
- */
 function enterEditMode(th) {
     let key = th.getAttribute('data-key');
     let oldText = th.childNodes[0].nodeValue.trim();
@@ -35,7 +27,6 @@ function enterEditMode(th) {
     th.innerHTML = '';
     th.appendChild(input);
     input.focus();
-
     const finishEditing = () => saveEdit(th, key, input);
     input.addEventListener('blur', finishEditing);
     input.addEventListener('keydown', (event) => {
@@ -46,46 +37,28 @@ function enterEditMode(th) {
     });
 }
 
-/**
- * ヘッダーの色を循環的に切り替えます。
- * @param {HTMLElement} th - クリックされたヘッダー要素
- */
 function cycleHeaderColor(th) {
     const key = th.getAttribute('data-key') + '-color';
     const currentIndex = colorClasses.indexOf(th.dataset.colorClass || '');
     const nextIndex = (currentIndex + 1) % colorClasses.length;
     const newColorClass = colorClasses[nextIndex];
-
     localStorage.setItem(key, newColorClass);
     applyColumnColor(th, newColorClass);
 }
 
-/**
- * 指定された列に色のクラスを適用します。
- * @param {HTMLElement} th - 対象のヘッダー要素
- * @param {string} colorClass - 適用する色のクラス名
- */
 function applyColumnColor(th, colorClass) {
     const table = th.closest('table');
     const thIndex = th.cellIndex;
-    
-    // ★★★ エラー修正箇所 ▼▼▼
-    // 空のクラスを除外してから削除
     const validColorClasses = colorClasses.filter(c => c);
     th.classList.remove(...validColorClasses);
-    // ★★★ エラー修正箇所 ▲▲▲
-    
     th.dataset.colorClass = colorClass;
     if (colorClass) {
         th.classList.add(colorClass);
     }
-    
     table.querySelectorAll('tbody tr').forEach(row => {
         const cell = row.cells[thIndex];
         if (cell) {
-             // ★★★ エラー修正箇所 ▼▼▼
             cell.classList.remove(...validColorClasses);
-            // ★★★ エラー修正箇所 ▲▲▲
             if (colorClass) {
                 cell.classList.add(colorClass);
             }
@@ -93,12 +66,6 @@ function applyColumnColor(th, colorClass) {
     });
 }
 
-/**
- * 編集されたタイトルを保存し、表示を更新します。
- * @param {HTMLElement} th - ヘッダー要素
- * @param {string} key - localStorageのキー
- * @param {HTMLInputElement} input - 入力フィールド
- */
 function saveEdit(th, key, input) {
     let newText = input.value.trim();
     localStorage.setItem(key, newText);
@@ -108,38 +75,48 @@ function saveEdit(th, key, input) {
 function setOnFocus(){const border=document.getElementsByClassName("border");for(let e=border.length;e--;){border[e].addEventListener("focus",e=>{const t=e.target.getElementsByClassName("text");e.target.contentEditable=!1,t[0].focus()}),border[e].getElementsByClassName("text")[0].addEventListener("blur",e=>e.target.contentEditable=!0)}const e=document.querySelectorAll(".text,.quot");for(let t=e.length;t--;)e[t].addEventListener("focus",e=>{if(!e.relatedTarget)return;if(e.relatedTarget===e.target)return;if("quot"!==e.relatedTarget.className)return;if(e.relatedTarget.parentNode.id<=e.target.parentNode.id)return;const t=e.relatedTarget.parentNode.className.match(/red|blue/g)?.[0],n="red"===t?"rgb(255, 0, 0,0.5)":"rgba(30, 130, 250, 0.5)",o=new LeaderLine(e.target,e.relatedTarget,{color:n,size:1,path:"straight"});APPEALS.push({line:o,sheet:document.getElementById("flow").value}),e.relatedTarget.style.backgroundColor=n,e.relatedTarget.focus(),e.relatedTarget.value=""})}
 function hideLine(){if(!APPEALS.length)return;const{value:e}=document.getElementById("flow");for(let t=APPEALS.length;t--;)APPEALS[t].sheet!==e?APPEALS[t].line.hide("none"):APPEALS[t].line.show("none")}
 function rePosition(){if(!APPEALS.length)return;for(let e=APPEALS.length;e--;)APPEALS[e].line.position()}
-function toNextRow(e){
-    if (!e.metaKey&&!e.ctrlKey) return;
-    const cellDiv = e.target.closest(".text");
-    if (!cellDiv) return;
-    if (e.code !== "Enter") return;
 
-    e.preventDefault();
-    const selection = window.getSelection();
-    let fragmentToMove = null;
-    if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const rangeToEnd = range.cloneRange();
-        rangeToEnd.setEnd(cellDiv, cellDiv.childNodes.length);
-        fragmentToMove = rangeToEnd.extractContents();
+function toNextRow(e) {
+    const cellDiv = e.target.closest(".text");
+    if (!cellDiv || e.key !== "Enter") return;
+    if (e.metaKey || e.ctrlKey) {
+        e.preventDefault();
+        const selection = window.getSelection();
+        let fragmentToMove = null;
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const rangeToEnd = range.cloneRange();
+            rangeToEnd.setEnd(cellDiv, cellDiv.childNodes.length);
+            fragmentToMove = rangeToEnd.extractContents();
+        }
+        appendRow(e, fragmentToMove);
+        return;
     }
-    appendRow(e, fragmentToMove);
+    setTimeout(() => {
+        const content = cellDiv.innerHTML.trim();
+        const doubleBrPattern = /<br\s*\/?>\s*<br\s*\/?>$/;
+        const doubleDivPattern = /(<div>\s*(<br\s*\/?>)?\s*<\/div>\s*){2}$/;
+        if (doubleBrPattern.test(content) || doubleDivPattern.test(content)) {
+            if (doubleDivPattern.test(content)) {
+                cellDiv.innerHTML = content.replace(doubleDivPattern, '');
+            } else if (doubleBrPattern.test(content)) {
+                cellDiv.innerHTML = content.replace(doubleBrPattern, '');
+            }
+            appendRow(e, null);
+        }
+    }, 0);
 }
 
 function updateTableColumns(newColumnCount) {
     if (newColumnCount < 1) return;
     numberOfColumns = newColumnCount;
-
     const tables = [document.getElementById("Aff"), document.getElementById("Neg")];
-    
     tables.forEach(table => {
         if (!table) return;
-
         const theadRow = table.querySelector('.part tr');
         const tbody = table.querySelector('tbody');
         const headers = Array.from(theadRow.children);
         const currentHeaderCount = headers.length;
-
         if (currentHeaderCount < newColumnCount) {
             for (let i = currentHeaderCount; i < newColumnCount; i++) {
                 const th = document.createElement('th');
@@ -155,18 +132,15 @@ function updateTableColumns(newColumnCount) {
                 theadRow.lastChild.remove();
             }
         }
-        
         theadRow.querySelectorAll('th').forEach(th => {
             const colorKey = th.getAttribute('data-key') + '-color';
             const savedColor = localStorage.getItem(colorKey) || '';
             applyColumnColor(th, savedColor);
         });
-
         const rows = tbody.querySelectorAll('tr');
         rows.forEach(row => {
             const cells = Array.from(row.children);
             const currentCellCount = cells.length;
-
             if (currentCellCount < newColumnCount) {
                 for (let i = currentCellCount; i < newColumnCount; i++) {
                     const td = document.createElement('td');
@@ -189,7 +163,6 @@ function updateTableColumns(newColumnCount) {
             }
         });
     });
-
     attachEventListenersToHeaders();
     setOnStartEvidence();
     setOnFocus();
@@ -202,17 +175,13 @@ function appendRow(e, contentToMove = null) {
     const table = document.getElementById(currentSheet);
     const currentRow = e.target.closest('tr');
     const currentCell = e.target.closest('td');
-
     if (!currentRow || !currentCell) return;
-
     const currentCellIndex = currentCell.cellIndex;
     const colors = [];
     table.querySelectorAll('.part th').forEach(th => {
         colors.push(th.dataset.colorClass || '');
     });
-
     const newRow = table.insertRow(currentRow.rowIndex + 1);
-
     for (let i = 0; i < numberOfColumns; i++) {
         const td = document.createElement("td");
         td.className = `border col-${i} ${colors[i] || ''}`;
@@ -223,9 +192,7 @@ function appendRow(e, contentToMove = null) {
         td.appendChild(div);
         newRow.appendChild(td);
     }
-
     setOnStartEvidence();
-
     const newCell = newRow.cells[currentCellIndex];
     if (newCell) {
         const textDiv = newCell.querySelector('.text');
@@ -271,17 +238,39 @@ function appendEvidence(parent){
     return parent.appendChild(newElement);
 }
 
-function endEvidence(e){
-    if(!e.metaKey && !e.ctrlKey) return;
-    if(e.srcElement.className !== "quot") return;
-    if(e.code !== "Enter") return
-    const div = document.createElement("div");
-    div.className = "text";
-    div.contentEditable = true;
-    const newNode = e.target.parentNode.appendChild(div);
-    newNode.focus();    
-    setOnFocus();
+// === ▼ endEvidence関数を修正 ▼ ===
+function endEvidence(e) {
+    if (e.target.className !== "quot" || e.key !== "Enter") return;
+    
+    // --- Logic 1: Ctrl/Cmd + Enter ---
+    if (e.metaKey || e.ctrlKey) {
+        e.preventDefault();
+        const div = document.createElement("div");
+        div.className = "text";
+        div.contentEditable = true;
+        const newNode = e.target.parentNode.appendChild(div);
+        newNode.focus();
+        setOnFocus();
+        return;
+    }
+
+    // --- Logic 2: Double Enter press ---
+    // textareaの場合、\nで改行が入るので、それで判定
+    setTimeout(() => {
+        const textarea = e.target;
+        if (textarea.value.endsWith('\n\n')) {
+            textarea.value = textarea.value.trimEnd(); // 余分な改行を削除
+            
+            const div = document.createElement("div");
+            div.className = "text";
+            div.contentEditable = true;
+            const newNode = textarea.parentNode.appendChild(div);
+            newNode.focus();
+            setOnFocus();
+        }
+    }, 0);
 }
+// === ▲ endEvidence関数 修正ここまで ▲ ===
 
 function deleteEvidence(e){
     if(!e.metaKey && !e.ctrlKey) return;
@@ -358,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("keydown",toNextRow);
-    document.addEventListener("keydown",endEvidence);
+    document.addEventListener("keydown",endEvidence); // keydownのままでOK
     document.addEventListener("keydown",deleteEvidence);
     document.getElementById("flow").addEventListener("change",onChangeSheet);
     document.getElementById("Neg").style.display = "none";
